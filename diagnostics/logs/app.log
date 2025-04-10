@@ -1,0 +1,35 @@
+2025-04-10 14:45:16,939 - __main__ - INFO - Logging configured from .streamlit/config.toml
+2025-04-10 14:45:16,941 - __main__ - INFO - Logging configured from .streamlit/config.toml
+2025-04-10 14:45:16,941 - __main__ - INFO - Logging configured from .streamlit/config.toml
+2025-04-10 14:45:16,998 - __main__ - INFO - Starting Adaptive Traction Architecture Diagnostics app
+2025-04-10 14:45:16,998 - __main__ - INFO - Starting Adaptive Traction Architecture Diagnostics app
+2025-04-10 14:54:20,875 - __main__ - INFO - Logging configured from .streamlit/config.toml
+2025-04-10 14:54:20,993 - __main__ - INFO - Starting Adaptive Traction Architecture Diagnostics app
+2025-04-10 15:17:09,123 - __main__ - INFO - Logging configured from .streamlit/config.toml
+2025-04-10 15:17:09,123 - __main__ - INFO - Logging configured from .streamlit/config.toml
+2025-04-10 15:17:09,128 - __main__ - INFO - Successfully imported setup_database module
+2025-04-10 15:17:09,128 - __main__ - INFO - Successfully imported setup_database module
+2025-04-10 15:17:09,128 - setup_database - INFO - Starting database setup
+2025-04-10 15:17:09,128 - setup_database - INFO - Starting database setup
+2025-04-10 15:17:09,128 - setup_database - INFO - Created 'data' directory
+2025-04-10 15:17:09,128 - setup_database - INFO - Created 'data' directory
+2025-04-10 15:17:09,138 - setup_database - INFO - Inserted 6 growth stages
+2025-04-10 15:17:09,138 - setup_database - INFO - Inserted 6 growth stages
+2025-04-10 15:17:09,139 - setup_database - INFO - Growth stages table created successfully
+2025-04-10 15:17:09,139 - setup_database - INFO - Growth stages table created successfully
+2025-04-10 15:17:09,144 - setup_database - INFO - Inserted 50 architecture problems
+2025-04-10 15:17:09,144 - setup_database - INFO - Inserted 50 architecture problems
+2025-04-10 15:17:09,145 - setup_database - INFO - Architecture problems table created successfully
+2025-04-10 15:17:09,145 - setup_database - INFO - Architecture problems table created successfully
+2025-04-10 15:17:09,146 - setup_database - INFO - Database setup completed successfully
+2025-04-10 15:17:09,146 - setup_database - INFO - Database setup completed successfully
+2025-04-10 15:17:09,146 - __main__ - INFO - Database setup completed
+2025-04-10 15:17:09,146 - __main__ - INFO - Database setup completed
+2025-04-10 15:17:09,146 - __main__ - INFO - Starting Adaptive Traction Architecture Diagnostics app
+2025-04-10 15:17:09,146 - __main__ - INFO - Starting Adaptive Traction Architecture Diagnostics app
+2025-04-10 15:17:09,149 - __main__ - INFO - Determined company stage: Validation Seekers
+2025-04-10 15:17:09,149 - __main__ - INFO - Determined company stage: Validation Seekers
+2025-04-10 15:17:09,150 - __main__ - INFO - Company stage determined as Validation Seekers (ARR: $0.9999600000000001M)
+2025-04-10 15:17:09,150 - __main__ - INFO - Company stage determined as Validation Seekers (ARR: $0.9999600000000001M)
+2025-04-10 15:17:09,157 - __main__ - INFO - App rendered successfully
+2025-04-10 15:17:09,157 - __main__ - INFO - App rendered successfully

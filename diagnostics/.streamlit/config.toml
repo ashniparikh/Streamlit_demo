@@ -1,0 +1,61 @@
+[theme]
+# Primary accent color for interactive elements
+primaryColor = "#26619C"
+
+# Background color for the main content area
+backgroundColor = "#FFFFFF"
+
+# Background color used for the sidebar and most interactive widgets
+secondaryBackgroundColor = "#F8F9FA"
+
+# Color used for almost all text
+textColor = "#333333"
+
+# Font family for all text in the app, except code blocks
+font = "sans-serif"
+
+[server]
+# If false, will attempt to open a browser window on start
+headless = false
+
+# Automatically rerun script when the file is modified on disk
+runOnSave = true
+
+# Port where the server will listen for client and browser connections
+port = 8501
+
+# Enables support for Cross-Origin Resource Sharing (CORS)
+enableCors = false
+
+[logger]
+# Level of logging: 'error', 'warning', 'info', or 'debug'
+level = "info"
+messageFormat = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Enable file logging
+enableFileLogging = true
+logFilePath = "logs/app.log"
+
+[deprecation]
+# Show deprecation warning for each usage of soon-to-be-deprecated features
+showPyplotGlobalUse = false
+
+[global]
+# These configs apply globally
+showWarningOnDirectExecution = true
+developmentMode = false
+
+[browser]
+# Settings for the Streamlit browser
+gatherUsageStats = false
+serverAddress = "localhost"
+serverPort = 8501
+
+[colors]
+# Custom colors for the app (matches our CSS variables)
+primaryColor = "#233292"     # Deep blue
+secondaryColor = "#26619C"   # Medium blue
+tertiaryColor = "#385424"    # Forest green
+quaternaryColor = "#4D466B"  # Purple-gray
+highlightColor = "#AC2147"   # Red highlight
+linkColor = "#00A8A8"        # Teal for hyperlinks
