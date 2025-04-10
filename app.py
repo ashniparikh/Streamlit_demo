@@ -62,15 +62,15 @@ def add_logo():
         </div>
         """
         st.markdown(logo_html, unsafe_allow_html=True)
-        logger.debug("Logo rendered successfully")
+        # logger.debug("Logo rendered successfully")
     except Exception as e:
-        logger.error(f"Error displaying logo: {str(e)}")
+        # logger.error(f"Error displaying logo: {str(e)}")
         st.error(f"Error displaying logo: {str(e)}")
 
 # === App Layout ===
 def main():
     try:
-        logger.info("Starting Adaptive Traction Architecture Diagnostics app")
+        # logger.info("Starting Adaptive Traction Architecture Diagnostics app")
 
         # Add logo
         add_logo()
@@ -97,7 +97,7 @@ def main():
         # Ask for company existence duration
         months_existed = st.number_input("How long has your company been in existence? (months)",
                                          min_value=1, max_value=240, value=12)
-        logger.debug(f"Company existence duration input: {months_existed} months")
+        # logger.debug(f"Company existence duration input: {months_existed} months")
 
         # Revenue input based on company age
         if months_existed < 24:
@@ -111,7 +111,7 @@ def main():
 
             # Convert MRR (in thousands) to ARR (in millions)
             annual_revenue = (mrr * 12) / 1000
-            logger.debug(f"MRR input: ${mrr}K, converted to ARR: ${annual_revenue}M")
+            # logger.debug(f"MRR input: ${mrr}K, converted to ARR: ${annual_revenue}M")
 
             # Display the converted ARR value
             st.info(f"**Your estimated Annual Recurring Revenue (ARR): __\\${annual_revenue:.2f}M__**")
@@ -123,11 +123,11 @@ def main():
                                        value=1.5,
                                        step=0.25,
                                        format="$%.2fM")
-            logger.debug(f"ARR input: ${annual_revenue}M")
+            # logger.debug(f"ARR input: ${annual_revenue}M")
 
         # Warning for revenue > 10M
         if annual_revenue > 10.0:
-            logger.info(f"ARR exceeds $10M: ${annual_revenue}M")
+            # logger.info(f"ARR exceeds $10M: ${annual_revenue}M")
             st.warning(
                 "Your revenue exceeds \\$10M ARR. This diagnostic tool is primarily designed for companies in the \\$1M-\\$10M ARR range. Some insights may not apply to your current scale.")
 
@@ -192,7 +192,7 @@ def main():
         # logger.info("App rendered successfully")
 
     except Exception as e:
-        logger.error(f"An error occurred in the main app flow: {str(e)}", exc_info=True)
+        # logger.error(f"An error occurred in the main app flow: {str(e)}", exc_info=True)
         st.error(f"An error occurred: {str(e)}")
         st.info("Please refresh the page and try again.")
 
@@ -202,5 +202,5 @@ if __name__ == '__main__':
         # import_and_setup_database()
         main()
     except Exception as e:
-        logger.critical(f"Fatal error in app startup: {str(e)}", exc_info=True)
+        # logger.critical(f"Fatal error in app startup: {str(e)}", exc_info=True)
         st.error(f"Fatal error: {str(e)}")
