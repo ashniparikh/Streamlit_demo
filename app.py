@@ -45,176 +45,31 @@ import html
 import logging
 import toml
 
-
-# Load and use Streamlit config
-def setup_logging():
-    """Configure logging based on .streamlit/config.toml settings"""
+def import_and_setup_database():
+    """Import the setup_database module and run the setup function"""
     try:
-        # Attempt to load the config.toml file
-        config_path = os.path.join('.streamlit', 'config.toml')
-        if os.path.exists(config_path):
-            config = toml.load(config_path)
+        # Check if setup_database.py exists
+        if not os.path.exists('setup_database.py'):
+            logger.error("setup_database.py file not found")
+            st.error("setup_database.py file not found. Please ensure it's in the same directory as app.py.")
+            st.stop()
 
-            # Get logging settings from config
-            log_level = config.get('logger', {}).get('level', 'info').upper()
-            log_format = config.get('logger', {}).get('messageFormat',
-                                                      '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        # Import the module dynamically
+        spec = importlib.util.spec_from_file_location("setup_database", "setup_database.py")
+        setup_db_module = importlib.util.module_from_spec(spec)
+        sys.modules["setup_database"] = setup_db_module
+        spec.loader.exec_module(setup_db_module)
 
-            # Check if file logging is enabled
-            enable_file_logging = config.get('logger', {}).get('enableFileLogging', False)
-            log_file_path = config.get('logger', {}).get('logFilePath', 'logs/app.log')
+        logger.info("Successfully imported setup_database module")
 
-            # Convert string level to logging level
-            level_map = {
-                'DEBUG': logging.DEBUG,
-                'INFO': logging.INFO,
-                'WARNING': logging.WARNING,
-                'ERROR': logging.ERROR,
-                'CRITICAL': logging.CRITICAL
-            }
-            level = level_map.get(log_level, logging.INFO)
-
-            # Configure basic logging
-            logging.basicConfig(level=level, format=log_format)
-
-            # Add file handler if enabled
-            if enable_file_logging:
-                # Ensure log directory exists
-                log_dir = os.path.dirname(log_file_path)
-                if log_dir and not os.path.exists(log_dir):
-                    os.makedirs(log_dir)
-
-                # Add file handler
-                file_handler = logging.FileHandler(log_file_path)
-                file_handler.setFormatter(logging.Formatter(log_format))
-
-                # Add to root logger
-                root_logger = logging.getLogger()
-                root_logger.addHandler(file_handler)
-
-            return True
-        else:
-            # Fall back to basic config if no file exists
-            logging.basicConfig(level=logging.INFO,
-                                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-            return False
+        # Run the setup function
+        setup_db_module.setup_database()
+        logger.info("Database setup completed")
     except Exception as e:
-        # If anything goes wrong, fall back to basic config
-        logging.basicConfig(level=logging.INFO,
-                            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        logging.error(f"Error setting up logging from config: {str(e)}")
-        return False
+        logger.error(f"Error setting up database: {str(e)}")
+        st.error(f"Error setting up database: {str(e)}")
+        st.stop()
 
-
-# Set up logging from config
-config_loaded = setup_logging()
-logger = logging.getLogger(__name__)
-
-if config_loaded:
-    logger.info("Logging configured from .streamlit/config.toml")
-else:
-    logger.info("Using default logging configuration")
-
-# === Page Configuration ===
-st.set_page_config(
-    page_title="Adaptive Traction Architecture Diagnostics",
-    page_icon="🔍",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
-
-# === Custom Theme & Styling ===
-# Try to load colors from config or use defaults
-try:
-    config_path = os.path.join('.streamlit', 'config.toml')
-    if os.path.exists(config_path):
-        config = toml.load(config_path)
-        color_config = config.get('colors', {})
-
-        # Get colors from config or use defaults
-        primary_color = color_config.get('primaryColor', "#233292")
-        secondary_color = color_config.get('secondaryColor', "#26619C")
-        tertiary_color = color_config.get('tertiaryColor', "#385424")
-        quaternary_color = color_config.get('quaternaryColor', "#4D466B")
-        highlight_color = color_config.get('highlightColor', "#AC2147")
-        link_color = color_config.get('linkColor', "#00A8A8")
-    else:
-        # Default colors
-        primary_color = "#233292"  # Deep blue
-        secondary_color = "#26619C"  # Medium blue
-        tertiary_color = "#385424"  # Forest green
-        quaternary_color = "#4D466B"  # Purple-gray
-        highlight_color = "#AC2147"  # Red highlight
-        link_color = "#00A8A8"  # Teal for hyperlinks
-except Exception as e:
-    logger.warning(f"Could not load colors from config, using defaults: {str(e)}")
-    # Default colors
-    primary_color = "#233292"  # Deep blue
-    secondary_color = "#26619C"  # Medium blue
-    tertiary_color = "#385424"  # Forest green
-    quaternary_color = "#4D466B"  # Purple-gray
-    highlight_color = "#AC2147"  # Red highlight
-    link_color = "#00A8A8"  # Teal for hyperlinks
-
-# Custom CSS for styling - this complements the config.toml settings
-css = """
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
-    /* Headers styling with Montserrat font */
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-    }
-
-    /* Custom container styling */
-    .dashboard-container {
-        border-radius: 8px;
-        padding: 24px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        margin-bottom: 20px;
-    }
-
-    /* Success & Info messages */
-    .success {
-        background-color: rgba(56, 84, 36, 0.1);
-        border-left: 4px solid #385424;
-        padding: 15px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-    }
-
-    .info {
-        background-color: rgba(38, 97, 156, 0.1);
-        border-left: 4px solid #26619C;
-        padding: 15px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-    }
-
-    .error {
-        background-color: rgba(172, 33, 71, 0.1);
-        border-left: 4px solid #AC2147;
-        padding: 15px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-    }
-
-    /* Link styling */
-    a {
-        color: #00A8A8 !important;
-        text-decoration: none;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-</style>
-"""
-
-# Apply CSS
-st.markdown(css, unsafe_allow_html=True)
 # === Helper Functions ===
 def add_logo():
     try:
@@ -232,9 +87,9 @@ def add_logo():
         </div>
         """
         st.markdown(logo_html, unsafe_allow_html=True)
-        logger.debug("Logo rendered successfully")
+        # logger.debug("Logo rendered successfully")
     except Exception as e:
-        logger.error(f"Error displaying logo: {str(e)}")
+        # logger.error(f"Error displaying logo: {str(e)}")
         st.error(f"Error displaying logo: {str(e)}")
 
 # === App Layout ===
@@ -267,7 +122,7 @@ def main():
         # Ask for company existence duration
         months_existed = st.number_input("How long has your company been in existence? (months)",
                                          min_value=1, max_value=240, value=12)
-        logger.debug(f"Company existence duration input: {months_existed} months")
+        # logger.debug(f"Company existence duration input: {months_existed} months")
 
         # Revenue input based on company age
         if months_existed < 24:
@@ -281,7 +136,7 @@ def main():
 
             # Convert MRR (in thousands) to ARR (in millions)
             annual_revenue = (mrr * 12) / 1000
-            logger.debug(f"MRR input: ${mrr}K, converted to ARR: ${annual_revenue}M")
+            # logger.debug(f"MRR input: ${mrr}K, converted to ARR: ${annual_revenue}M")
 
             # Display the converted ARR value
             st.info(f"**Your estimated Annual Recurring Revenue (ARR): __\\${annual_revenue:.2f}M__**")
@@ -293,11 +148,11 @@ def main():
                                        value=1.5,
                                        step=0.25,
                                        format="$%.2fM")
-            logger.debug(f"ARR input: ${annual_revenue}M")
+            # logger.debug(f"ARR input: ${annual_revenue}M")
 
         # Warning for revenue > 10M
         if annual_revenue > 10.0:
-            logger.info(f"ARR exceeds $10M: ${annual_revenue}M")
+            # logger.info(f"ARR exceeds $10M: ${annual_revenue}M")
             st.warning(
                 "Your revenue exceeds \\$10M ARR. This diagnostic tool is primarily designed for companies in the \\$1M-\\$10M ARR range. Some insights may not apply to your current scale.")
 
@@ -362,15 +217,15 @@ def main():
         # logger.info("App rendered successfully")
 
     except Exception as e:
-        logger.error(f"An error occurred in the main app flow: {str(e)}", exc_info=True)
+        # logger.error(f"An error occurred in the main app flow: {str(e)}", exc_info=True)
         st.error(f"An error occurred: {str(e)}")
         st.info("Please refresh the page and try again.")
 
 if __name__ == '__main__':
     try:
         # Make sure the database is set up
-        # import_and_setup_database()
+        import_and_setup_database()
         main()
     except Exception as e:
-        logger.critical(f"Fatal error in app startup: {str(e)}", exc_info=True)
+        # logger.critical(f"Fatal error in app startup: {str(e)}", exc_info=True)
         st.error(f"Fatal error: {str(e)}")
