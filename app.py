@@ -54,17 +54,17 @@ def import_and_setup_database():
             st.error("setup_database.py file not found. Please ensure it's in the same directory as app.py.")
             st.stop()
 
-        # Import the module dynamically
-        spec = importlib.util.spec_from_file_location("setup_database", "setup_database.py")
-        setup_db_module = importlib.util.module_from_spec(spec)
-        sys.modules["setup_database"] = setup_db_module
-        spec.loader.exec_module(setup_db_module)
+#         # Import the module dynamically
+#         spec = importlib.util.spec_from_file_location("setup_database", "setup_database.py")
+#         setup_db_module = importlib.util.module_from_spec(spec)
+#         sys.modules["setup_database"] = setup_db_module
+#         spec.loader.exec_module(setup_db_module)
 
-        # logger.info("Successfully imported setup_database module")
+#         # logger.info("Successfully imported setup_database module")
 
-        # Run the setup function
-        setup_db_module.setup_database()
-        # logger.info("Database setup completed")
+#         # Run the setup function
+#         setup_db_module.setup_database()
+#         # logger.info("Database setup completed")
     except Exception as e:
         # logger.error(f"Error setting up database: {str(e)}")
         st.error(f"Error setting up database: {str(e)}")
