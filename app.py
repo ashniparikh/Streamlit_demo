@@ -45,30 +45,30 @@ import html
 import logging
 import toml
 
-def import_and_setup_database():
-    """Import the setup_database module and run the setup function"""
-    try:
-        # Check if setup_database.py exists
-        if not os.path.exists('setup_database.py'):
-            logger.error("setup_database.py file not found")
-            st.error("setup_database.py file not found. Please ensure it's in the same directory as app.py.")
-            st.stop()
+# def import_and_setup_database():
+#     """Import the setup_database module and run the setup function"""
+#     try:
+#         # Check if setup_database.py exists
+#         if not os.path.exists('setup_database.py'):
+#             logger.error("setup_database.py file not found")
+#             st.error("setup_database.py file not found. Please ensure it's in the same directory as app.py.")
+#             st.stop()
 
-        # Import the module dynamically
-        spec = importlib.util.spec_from_file_location("setup_database", "setup_database.py")
-        setup_db_module = importlib.util.module_from_spec(spec)
-        sys.modules["setup_database"] = setup_db_module
-        spec.loader.exec_module(setup_db_module)
+#         # Import the module dynamically
+#         spec = importlib.util.spec_from_file_location("setup_database", "setup_database.py")
+#         setup_db_module = importlib.util.module_from_spec(spec)
+#         sys.modules["setup_database"] = setup_db_module
+#         spec.loader.exec_module(setup_db_module)
 
-        logger.info("Successfully imported setup_database module")
+#         logger.info("Successfully imported setup_database module")
 
-        # Run the setup function
-        setup_db_module.setup_database()
-        logger.info("Database setup completed")
-    except Exception as e:
-        logger.error(f"Error setting up database: {str(e)}")
-        st.error(f"Error setting up database: {str(e)}")
-        st.stop()
+#         # Run the setup function
+#         setup_db_module.setup_database()
+#         logger.info("Database setup completed")
+#     except Exception as e:
+#         logger.error(f"Error setting up database: {str(e)}")
+#         st.error(f"Error setting up database: {str(e)}")
+#         st.stop()
 
 # === Helper Functions ===
 def add_logo():
@@ -224,7 +224,7 @@ def main():
 if __name__ == '__main__':
     try:
         # Make sure the database is set up
-        import_and_setup_database()
+        # import_and_setup_database()
         main()
     except Exception as e:
         # logger.critical(f"Fatal error in app startup: {str(e)}", exc_info=True)
