@@ -35,8 +35,8 @@ import os
 import sys
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+# import matplotlib.pyplot as plt
+# import seaborn as sns
 import base64
 import sqlite3
 import importlib.util
@@ -45,30 +45,30 @@ import html
 import logging
 import toml
 
-# def import_and_setup_database():
-#     """Import the setup_database module and run the setup function"""
-#     try:
-#         # Check if setup_database.py exists
-#         if not os.path.exists('setup_database.py'):
-#             logger.error("setup_database.py file not found")
-#             st.error("setup_database.py file not found. Please ensure it's in the same directory as app.py.")
-#             st.stop()
+def import_and_setup_database():
+    """Import the setup_database module and run the setup function"""
+    try:
+        # Check if setup_database.py exists
+        if not os.path.exists('setup_database.py'):
+            # logger.error("setup_database.py file not found")
+            st.error("setup_database.py file not found. Please ensure it's in the same directory as app.py.")
+            st.stop()
 
-#         # Import the module dynamically
-#         spec = importlib.util.spec_from_file_location("setup_database", "setup_database.py")
-#         setup_db_module = importlib.util.module_from_spec(spec)
-#         sys.modules["setup_database"] = setup_db_module
-#         spec.loader.exec_module(setup_db_module)
+        # Import the module dynamically
+        spec = importlib.util.spec_from_file_location("setup_database", "setup_database.py")
+        setup_db_module = importlib.util.module_from_spec(spec)
+        sys.modules["setup_database"] = setup_db_module
+        spec.loader.exec_module(setup_db_module)
 
-#         logger.info("Successfully imported setup_database module")
+        # logger.info("Successfully imported setup_database module")
 
-#         # Run the setup function
-#         setup_db_module.setup_database()
-#         logger.info("Database setup completed")
-#     except Exception as e:
-#         logger.error(f"Error setting up database: {str(e)}")
-#         st.error(f"Error setting up database: {str(e)}")
-#         st.stop()
+        # Run the setup function
+        setup_db_module.setup_database()
+        # logger.info("Database setup completed")
+    except Exception as e:
+        # logger.error(f"Error setting up database: {str(e)}")
+        st.error(f"Error setting up database: {str(e)}")
+        st.stop()
 
 # === Helper Functions ===
 def add_logo():
@@ -161,11 +161,11 @@ def main():
 
         # # Display stage with styling based on qualification
         # if stage == "Pre-Qualification":
-        #     logger.info(f"Company stage determined as Pre-Qualification (ARR: ${annual_revenue}M)")
+        #     # logger.info(f"Company stage determined as Pre-Qualification (ARR: ${annual_revenue}M)")
         #     st.markdown(f"<div class='error'><strong>Company Stage: {stage}</strong><br>{explanation}</div>",
         #                 unsafe_allow_html=True)
         # else:
-        #     logger.info(f"Company stage determined as {stage} (ARR: ${annual_revenue}M)")
+        #     # logger.info(f"Company stage determined as {stage} (ARR: ${annual_revenue}M)")
         #     st.markdown(f"<div class='success'><strong>Company Stage: {stage}</strong></div>", unsafe_allow_html=True)
         #     st.markdown(f"<div class='info'>{explanation}</div>", unsafe_allow_html=True)
 
@@ -174,7 +174,7 @@ def main():
         #         st.markdown("<h4>Four Pillars of Adaptive Traction Architecture</h4>", unsafe_allow_html=True)
 
         #         # Create tabs for the four pillars
-        #         logger.debug("Creating pillar tabs")
+        #         # logger.debug("Creating pillar tabs")
         #         pillars_tabs = st.tabs(["Business/Revenue", "Product", "Systems", "Team"])
 
         #         # Business pillar tab
@@ -182,7 +182,7 @@ def main():
         #             st.markdown(
         #                 "**Evaluates your acquisition channels, pricing strategy, customer journey, and revenue resilience to identify patterns limiting growth or creating vulnerability to market shifts.**")
 
-        #             logger.debug("Displaying Business pillar metrics")
+        #             # logger.debug("Displaying Business pillar metrics")
         #             display_metrics_for_pillar("Business", stage)
 
         #         # Product pillar tab
@@ -190,7 +190,7 @@ def main():
         #             st.markdown(
         #                 "**Assesses your product development approach, feedback mechanisms, feature adoption patterns, and market responsiveness to reveal gaps between product evolution and market needs.**")
 
-        #             logger.debug("Displaying Product pillar metrics")
+        #             # logger.debug("Displaying Product pillar metrics")
         #             display_metrics_for_pillar("Product", stage)
 
         #         # Systems pillar tab
@@ -198,7 +198,7 @@ def main():
         #             st.markdown(
         #                 "**Examines your operational processes, technology infrastructure, data accessibility, and technical debt to identify inefficiencies and scalability constraints.**")
 
-        #             logger.debug("Displaying Systems pillar metrics")
+        #             # logger.debug("Displaying Systems pillar metrics")
         #             display_metrics_for_pillar("Systems", stage)
 
         #         # Team pillar tab
@@ -206,15 +206,15 @@ def main():
         #             st.markdown(
         #                 "**Explores your decision-making frameworks, information flow patterns, organizational structure, and change management capabilities to uncover bottlenecks limiting adaptive capacity.**")
 
-        #             logger.debug("Displaying Team pillar metrics")
+        #             # logger.debug("Displaying Team pillar metrics")
         #             display_metrics_for_pillar("Team", stage)
 
         #         if st.button("Run Diagnostics"):
-        #             logger.info("Run Diagnostics button clicked")
+        #             # logger.info("Run Diagnostics button clicked")
         #             st.success("Diagnostic analysis complete!")
 
         # st.markdown("</div>", unsafe_allow_html=True)
-        # logger.info("App rendered successfully")
+        # # logger.info("App rendered successfully")
 
     except Exception as e:
         # logger.error(f"An error occurred in the main app flow: {str(e)}", exc_info=True)
@@ -224,7 +224,7 @@ def main():
 if __name__ == '__main__':
     try:
         # Make sure the database is set up
-        # import_and_setup_database()
+        import_and_setup_database()
         main()
     except Exception as e:
         # logger.critical(f"Fatal error in app startup: {str(e)}", exc_info=True)
