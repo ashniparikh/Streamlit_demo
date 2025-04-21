@@ -451,6 +451,38 @@ def create_architecture_problems_table():
         logger.error(f"Error creating architecture problems table: {str(e)}")
         raise
 
+def create_architecure_problems_metrics_input_table():
+    """Create the SQLite table for architecture problems metrics input values given by users"""
+    try:
+        # Check if the data directory exists, if not create it
+        if not os.path.exists('data'):
+            os.makedirs('data')
+            logger.info("Created 'data' directory")
+
+        # Connect to the database (creates it if it doesn't exist)
+        conn = sqlite3.connect('data/traction_diagnostics.db')
+        cursor = conn.cursor()
+
+        # Create the architecture_problems_metrics_input table
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS architecture_problems_metrics_input (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            architecture_pillar TEXT NOT NULL,       -- Business/Revenue, Product, Systems, Team
+            growth_stage_name TEXT NOT NULL,         -- Aligned with growth_stages table (e.g., Validation Seekers)
+            metric_name TEXT NOT NULL,               -- Name of the metric to measure
+            metric_value DECIMAL(10,2) NOT NULL      -- Value of the metric selected by user
+        )
+        ''')
+
+        # Commit changes and close connection
+        conn.commit()
+        conn.close()
+
+        logger.info("Architecture problems metrics input table created successfully")
+    except Exception as e:
+        logger.error(f"Error creating architecture problems metrics input table: {str(e)}")
+        raise
+
 
 def query_problems_by_pillar_and_stage(pillar, stage_name):
     """Query problems for a specific pillar and growth stage
@@ -488,6 +520,7 @@ def setup_database():
         logger.info("Starting database setup")
         create_growth_stages_table()
         create_architecture_problems_table()
+        create_architecure_problems_metrics_input_table()
         logger.info("Database setup completed successfully")
         # For Streamlit integration, log a message in the UI as well
         if runtime.exists():

@@ -15,6 +15,7 @@ pandas = "*"
 sqlalchemy = "*"
 seaborn = "*"
 toml = "*"
+reportlab = "*"
 
 [dev-packages]
 
