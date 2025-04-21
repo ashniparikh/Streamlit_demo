@@ -541,6 +541,7 @@ def save_architecture_problems_metrics_input():
     metrics_data = []
 
     # Iterating widget data from session state and creating metrics_data from it
+    print(len(st.session_state.items()))
     for key, value in st.session_state.items():
         metric_data = []
 
@@ -552,37 +553,36 @@ def save_architecture_problems_metrics_input():
         metric_data.append(value)
         metrics_data.append(metric_data)
 
-        # Connect to the database (creates it if it doesn't exist)
-        conn = sqlite3.connect('data/traction_diagnostics.db')
-        cursor = conn.cursor()
+    # Connect to the database (creates it if it doesn't exist)
+    conn = sqlite3.connect('data/traction_diagnostics.db')
+    cursor = conn.cursor()
         
-        for metric_info in metrics_data:
-            cursor.execute('''
-                INSERT INTO architecture_problems_metrics_input
-                (architecture_pillar, growth_stage_name, metric_name, metric_value) 
-                VALUES (?, ?, ?, ?)
-                ''' , (metric_info[0],metric_info[1],metric_info[2],metric_info[3]) ) 
+    for metric_info in metrics_data:
+        cursor.execute('''
+            INSERT INTO architecture_problems_metrics_input
+            (architecture_pillar, growth_stage_name, metric_name, metric_value) 
+            VALUES (?, ?, ?, ?)
+            ''' , (metric_info[0],metric_info[1],metric_info[2],metric_info[3]) ) 
 
-        # Commit changes and close connection
-        conn.commit()
-        conn.close()
+    # Commit changes and close connection
+    conn.commit()
+    conn.close()
         
     logger.info(f"Inserted {len(metrics_data)} rows into architecture_problems_metrics_input succefully")
     
+def get_metrics_input_from_table():
     # Connect to the database (creates it if it doesn't exist)
     conn = sqlite3.connect('data/traction_diagnostics.db')
     cursor = conn.cursor()
 
     cursor.execute('''
-        SELECT * from architecture_problems_metrics_input
+        SELECT count(*) from architecture_problems_metrics_input
     ''')
-
-    result = cursor.fetchall()
-    
-    logger.info(f"Retrieved {len(result)}")
+    result = cursor.fetchone()
     logger.info(f"Retrieved {result}")
 
     conn.close()
+    return result
   
 
 # === App Layout ===
@@ -704,8 +704,9 @@ def main():
 
                 # Save user metrics input to database
                 if st.button("Run Diagnostics", type="primary"):
-                    save_architecture_problems_metrics_input()
                     logger.info("Run Diagnostics button clicked")
+                    save_architecture_problems_metrics_input()
+                    print(get_metrics_input_from_table())
                     st.success("Diagnostic analysis complete!")
 
                 if st.link_button("Need Clarity? Call Now",
