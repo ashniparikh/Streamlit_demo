@@ -567,8 +567,23 @@ def save_architecture_problems_metrics_input():
         conn.commit()
         conn.close()
         
-    logger.info(f"Inserted {len(metrics_data)} rows into architecture_problems_metrics_input succefully ")
-        
+    logger.info(f"Inserted {len(metrics_data)} rows into architecture_problems_metrics_input succefully")
+    
+    # Connect to the database (creates it if it doesn't exist)
+    conn = sqlite3.connect('data/traction_diagnostics.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT * from architecture_problems_metrics_input
+    ''')
+
+    result = cursor.fetchall()
+    
+    logger.info(f"Retrieved {len(result)}")
+    logger.info(f"Retrieved {result}")
+
+    conn.close()
+  
 
 # === App Layout ===
 def main():
